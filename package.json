@@ -1,6 +1,6 @@
 {
     "name": "n8n-nodes-fenx",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "n8n community node for working with Fenergo Fen-X APIs",
     "license": "Apache-2.0 license",
     "homepage": "https://github.com/goranstjepanovic",
