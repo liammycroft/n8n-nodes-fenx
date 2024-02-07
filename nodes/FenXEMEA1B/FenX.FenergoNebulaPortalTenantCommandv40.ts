@@ -13,7 +13,7 @@ let FenergoNebulaPortalTenantCommandv40Properties: INodeProperties[] = [
         name: 'endpoint',
         type: 'options',
         options: [
-            { name: 'Sends Email using configured Outreach Email Domain', value: 'SendEmail' },{ name: 'Links portal user to entities', value: 'AddUserEntityLinks' },{ name: 'Changes portal user active status', value: 'UpdateUserStatus' },{ name: 'Deletes User EntityLink', value: 'DeleteUserEntityLink' },{ name: 'Creates portal user', value: 'CreateUser' },{ name: 'Deletes portal user', value: 'DeletePortalUser' },{ name: 'Deletes portal user', value: 'RemovePortalUser' },{ name: 'Updates Portal user details', value: 'UpdateUserDetails' }
+            { name: 'Sends Email using configured Outreach Email Domain', value: 'SendEmail' },{ name: 'Links portal user to entities', value: 'AddUserEntityLinks' },{ name: 'Changes portal user active status', value: 'UpdateUserStatus' },{ name: 'Deletes User EntityLink', value: 'DeleteUserEntityLink' },{ name: 'Creates portal user', value: 'CreateUser' },{ name: 'Deletes portal user', value: 'RemovePortalUser' },{ name: 'Updates Portal user details', value: 'UpdateUserDetails' },{ name: 'Creates portal user or uses existing one and links it with entities', value: 'CreateUserWithEntitiesLinks' }
         ],
         displayOptions: {
             show: {
@@ -25,7 +25,7 @@ let FenergoNebulaPortalTenantCommandv40Properties: INodeProperties[] = [
         default: '',
         required: true,
         description: 'Operation to execute',
-    }, { displayName: 'id', name: 'id', type: 'string', required: true, default: '', description: 'User Entity Link id', displayOptions: { show: { endpoint: [ 'DeleteUserEntityLink' ], domain: [ 'FenergoNebulaPortalTenantCommandv40' ] } } },{ displayName: 'id', name: 'id', type: 'string', required: true, default: '', description: 'User id', displayOptions: { show: { endpoint: [ 'DeletePortalUser' ], domain: [ 'FenergoNebulaPortalTenantCommandv40' ] } } },{ displayName: 'id', name: 'id', type: 'string', required: true, default: '', description: 'User id', displayOptions: { show: { endpoint: [ 'RemovePortalUser' ], domain: [ 'FenergoNebulaPortalTenantCommandv40' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "to": "to", "templateName": "templateName", "variables": {}, "journeyId": "journeyId" } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'SendEmail' ], domain: [ 'FenergoNebulaPortalTenantCommandv40' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "userId": "userId", "entityIds": [ "" ] } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'AddUserEntityLinks' ], domain: [ 'FenergoNebulaPortalTenantCommandv40' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "isActive": false, "userId": "userId" } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'UpdateUserStatus' ], domain: [ 'FenergoNebulaPortalTenantCommandv40' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "email": "email" } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'CreateUser' ], domain: [ 'FenergoNebulaPortalTenantCommandv40' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "userId": "userId", "languageInfo": { "isoCode": "isoCode" } } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'UpdateUserDetails' ], domain: [ 'FenergoNebulaPortalTenantCommandv40' ] } } }
+    }, { displayName: 'id', name: 'id', type: 'string', required: true, default: '', description: 'User Entity Link id', displayOptions: { show: { endpoint: [ 'DeleteUserEntityLink' ], domain: [ 'FenergoNebulaPortalTenantCommandv40' ] } } },{ displayName: 'id', name: 'id', type: 'string', required: true, default: '', description: 'User id', displayOptions: { show: { endpoint: [ 'RemovePortalUser' ], domain: [ 'FenergoNebulaPortalTenantCommandv40' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "to": "to", "templateName": "templateName", "variables": {}, "journeyId": "journeyId" } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'SendEmail' ], domain: [ 'FenergoNebulaPortalTenantCommandv40' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "userId": "userId", "entityIds": [ "" ] } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'AddUserEntityLinks' ], domain: [ 'FenergoNebulaPortalTenantCommandv40' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "isActive": false, "userId": "userId" } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'UpdateUserStatus' ], domain: [ 'FenergoNebulaPortalTenantCommandv40' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "email": "email" } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'CreateUser' ], domain: [ 'FenergoNebulaPortalTenantCommandv40' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "userId": "userId", "languageInfo": { "isoCode": "isoCode" } } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'UpdateUserDetails' ], domain: [ 'FenergoNebulaPortalTenantCommandv40' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "email": "email", "entitiesIds": [ "" ] } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'CreateUserWithEntitiesLinks' ], domain: [ 'FenergoNebulaPortalTenantCommandv40' ] } } }
 ];
 
 async function ExecuteFenergoNebulaPortalTenantCommandv40(base: IExecuteFunctions): Promise < INodeExecutionData[][] > {
@@ -72,11 +72,6 @@ requestOptions.method = 'POST';
 requestOptions.uri = 'https://api.emea1b.fenergox.com/portaltenantcommand/api/portal-users/createuser';
 
 requestOptions.body = base.getNodeParameter('request', 0) as string; requestOptions.json = true;break;
-case 'DeletePortalUser': id = base.getNodeParameter('id', 0) as string;
-requestOptions.method = 'DELETE';
-requestOptions.uri = 'https://api.emea1b.fenergox.com/portaltenantcommand/api/portal-users/delete/{id}'.replace('{id}', id);
-
-break;
 case 'RemovePortalUser': id = base.getNodeParameter('id', 0) as string;
 requestOptions.method = 'DELETE';
 requestOptions.uri = 'https://api.emea1b.fenergox.com/portaltenantcommand/api/portal-users/remove/{id}'.replace('{id}', id);
@@ -85,6 +80,11 @@ break;
 case 'UpdateUserDetails': 
 requestOptions.method = 'PUT';
 requestOptions.uri = 'https://api.emea1b.fenergox.com/portaltenantcommand/api/portal-users/updateuserdetails';
+
+requestOptions.body = base.getNodeParameter('request', 0) as string; requestOptions.json = true;break;
+case 'CreateUserWithEntitiesLinks': 
+requestOptions.method = 'POST';
+requestOptions.uri = 'https://api.emea1b.fenergox.com/portaltenantcommand/api/portal-users/createuserwithentitieslinks';
 
 requestOptions.body = base.getNodeParameter('request', 0) as string; requestOptions.json = true;break;
 }

@@ -13,7 +13,7 @@ let FenergoNebulaNewRequestv10Properties: INodeProperties[] = [
         name: 'endpoint',
         type: 'options',
         options: [
-            { name: 'Create new search request', value: 'SaveConfiguration' }
+            { name: 'Save Configuration', value: 'SaveConfiguration' }
         ],
         displayOptions: {
             show: {

@@ -1,0 +1,164 @@
+import {
+    IExecuteFunctions,
+    INodeExecutionData,
+    INodeProperties,
+    NodeApiError,
+} from 'n8n-workflow';
+import { OptionsWithUri } from 'request';
+import { FenXToken } from './FenXNAR.node';
+
+let FenergoNebulaScreeningQueryv30Properties: INodeProperties[] = [
+    {
+        displayName: 'Endpoint',
+        name: 'endpoint',
+        type: 'options',
+        options: [
+            { name: 'Get data of an existing batch with batch Id', value: 'GetBatchById' },{ name: 'Get data of an existing batch with journey Id', value: 'GetBatchByJourneyId' },{ name: 'Get data of an existing batch with journey Id and process Id', value: 'GetBatchByJourneyAndProcessId' },{ name: 'Get the batches with Legal Entity Id', value: 'GetBatchesByLegalEntityId' },{ name: 'Get data of an existing configuration', value: 'GetConfigurationV3' },{ name: 'Get a lite version of the data of an existing configuration', value: 'GetConfigurationLiteV3' },{ name: 'Get provider from configuration', value: 'GetProviderV3' },{ name: 'Get all entities in a batch', value: 'GetEntitiesByBatchIdV2' },{ name: 'Get data of an entity', value: 'GetEntityByIdV2' },{ name: 'Get all matches for an entity', value: 'GetMatchesByEntityId' },{ name: 'Get data of a match', value: 'GetMatchById' },{ name: 'Get all entities in scope for Screening for a given Journey and Process', value: 'GetScopedEntitiesByJourneyAndProcessId' },{ name: 'Get all scoping rule sets', value: 'GetAllScopingRuleSetsLite' },{ name: 'Get the current scoping rule set version by scopingRuleSetId', value: 'GetCurrentScopingRuleSetVersionByRuleSetId' },{ name: 'Get scoping rule set version by scopingRuleSetId and versionNumber', value: 'GetScopingRuleSetVersionByRuleSetIdAndVersionNumber' },{ name: 'Gets an existing Screening entity by ID', value: 'GetEntity' }
+        ],
+        displayOptions: {
+            show: {
+                domain: [
+                    'FenergoNebulaScreeningQueryv30',
+                ],
+            },
+        },
+        default: '',
+        required: true,
+        description: 'Operation to execute',
+    }, { displayName: 'id', name: 'id', type: 'string', required: true, default: '', description: 'The Id of the existing batch to get', displayOptions: { show: { endpoint: [ 'GetBatchById' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'journeyId', name: 'journeyId', type: 'string', required: true, default: '', description: 'The Id of the journey', displayOptions: { show: { endpoint: [ 'GetBatchByJourneyId' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'journeyId', name: 'journeyId', type: 'string', required: true, default: '', description: 'The Id of the journey', displayOptions: { show: { endpoint: [ 'GetBatchByJourneyAndProcessId' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'processId', name: 'processId', type: 'string', required: true, default: '', description: 'The Id of the process that started the batch', displayOptions: { show: { endpoint: [ 'GetBatchByJourneyAndProcessId' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'legalEntityId', name: 'legalEntityId', type: 'string', required: true, default: '', description: 'The Id of the Legal Entity', displayOptions: { show: { endpoint: [ 'GetBatchesByLegalEntityId' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'providerId', name: 'providerId', type: 'string', required: true, default: '', description: 'The ID of provider', displayOptions: { show: { endpoint: [ 'GetProviderV3' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'batchId', name: 'batchId', type: 'string', required: true, default: '', description: 'The ID of the batch the entities belong to', displayOptions: { show: { endpoint: [ 'GetEntitiesByBatchIdV2' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'entityId', name: 'entityId', type: 'string', required: true, default: '', description: 'The ID of the entity', displayOptions: { show: { endpoint: [ 'GetEntityByIdV2' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'batchId', name: 'batchId', type: 'string', required: true, default: '', description: 'The batch ID the entity belongs to', displayOptions: { show: { endpoint: [ 'GetEntityByIdV2' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'entityId', name: 'entityId', type: 'string', required: true, default: '', description: 'The ID of the entity the matches belong to', displayOptions: { show: { endpoint: [ 'GetMatchesByEntityId' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'batchId', name: 'batchId', type: 'string', required: true, default: '', description: 'The batch ID the entity belongs to', displayOptions: { show: { endpoint: [ 'GetMatchesByEntityId' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'entityId', name: 'entityId', type: 'string', required: true, default: '', description: 'The entity ID the match belongs to', displayOptions: { show: { endpoint: [ 'GetMatchById' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'batchId', name: 'batchId', type: 'string', required: true, default: '', description: 'The batch ID the entity belongs to', displayOptions: { show: { endpoint: [ 'GetMatchById' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'matchId', name: 'matchId', type: 'string', required: true, default: '', description: 'The ID of the match', displayOptions: { show: { endpoint: [ 'GetMatchById' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'journeyId', name: 'journeyId', type: 'string', required: true, default: '', description: 'The ID of the journey', displayOptions: { show: { endpoint: [ 'GetScopedEntitiesByJourneyAndProcessId' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'processId', name: 'processId', type: 'string', required: true, default: '', description: 'The ID of the process that started the Screening request', displayOptions: { show: { endpoint: [ 'GetScopedEntitiesByJourneyAndProcessId' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'scopingRuleSetId', name: 'scopingRuleSetId', type: 'string', required: true, default: '', description: 'Scoping rule set id', displayOptions: { show: { endpoint: [ 'GetCurrentScopingRuleSetVersionByRuleSetId' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'scopingRuleSetId', name: 'scopingRuleSetId', type: 'string', required: true, default: '', description: 'Scoping rule set id', displayOptions: { show: { endpoint: [ 'GetScopingRuleSetVersionByRuleSetIdAndVersionNumber' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'versionNumber', name: 'versionNumber', type: 'string', required: true, default: '', description: 'Scoping rule set version number', displayOptions: { show: { endpoint: [ 'GetScopingRuleSetVersionByRuleSetIdAndVersionNumber' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'entityId', name: 'entityId', type: 'string', required: true, default: '', description: 'The Screening ID of the entity', displayOptions: { show: { endpoint: [ 'GetEntity' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } },{ displayName: 'returnMaterialMatches', name: 'returnMaterialMatches', type: 'string', required: true, default: '', description: 'Return only matches with status Match', displayOptions: { show: { endpoint: [ 'GetMatchesByEntityId' ], domain: [ 'FenergoNebulaScreeningQueryv30' ] } } }
+];
+
+async function ExecuteFenergoNebulaScreeningQueryv30(base: IExecuteFunctions): Promise < INodeExecutionData[][] > {
+    // @ts-ignore
+    let token = await FenXToken.getToken(base);
+
+    let requestOptions: OptionsWithUri = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+            'x-tenant-id': FenXToken.tenant
+        },
+        gzip: true,
+        timeout: 3600000,
+        uri: ""
+    };
+
+    const endpoint = base.getNodeParameter('endpoint', 0) as string;
+
+    let id=''; let journeyId=''; let processId=''; let legalEntityId=''; let providerId=''; let batchId=''; let entityId=''; let matchId=''; let scopingRuleSetId=''; let versionNumber='';
+switch(endpoint){ case 'GetBatchById': id = base.getNodeParameter('id', 0) as string;
+requestOptions.method = 'GET';
+requestOptions.uri = 'https://api.nar1.fenergox.com/screeningquery/api/v3/batch/{id}'.replace('{id}', id);
+
+break;
+case 'GetBatchByJourneyId': journeyId = base.getNodeParameter('journeyId', 0) as string;
+requestOptions.method = 'GET';
+requestOptions.uri = 'https://api.nar1.fenergox.com/screeningquery/api/v3/batch/journey/{journeyId}'.replace('{journeyId}', journeyId);
+
+break;
+case 'GetBatchByJourneyAndProcessId': journeyId = base.getNodeParameter('journeyId', 0) as string;
+processId = base.getNodeParameter('processId', 0) as string;
+requestOptions.method = 'GET';
+requestOptions.uri = 'https://api.nar1.fenergox.com/screeningquery/api/v3/batch/journey/{journeyId}/process/{processId}'.replace('{journeyId}', journeyId).replace('{processId}', processId);
+
+break;
+case 'GetBatchesByLegalEntityId': legalEntityId = base.getNodeParameter('legalEntityId', 0) as string;
+requestOptions.method = 'GET';
+requestOptions.uri = 'https://api.nar1.fenergox.com/screeningquery/api/v3/batch/legalentity/{legalEntityId}'.replace('{legalEntityId}', legalEntityId);
+
+break;
+case 'GetConfigurationV3': 
+requestOptions.method = 'GET';
+requestOptions.uri = 'https://api.nar1.fenergox.com/screeningquery/api/v3/configuration';
+
+break;
+case 'GetConfigurationLiteV3': 
+requestOptions.method = 'GET';
+requestOptions.uri = 'https://api.nar1.fenergox.com/screeningquery/api/v3/configuration/lite';
+
+break;
+case 'GetProviderV3': providerId = base.getNodeParameter('providerId', 0) as string;
+requestOptions.method = 'GET';
+requestOptions.uri = 'https://api.nar1.fenergox.com/screeningquery/api/v3/configuration/provider/{providerId}'.replace('{providerId}', providerId);
+
+break;
+case 'GetEntitiesByBatchIdV2': batchId = base.getNodeParameter('batchId', 0) as string;
+requestOptions.method = 'GET';
+requestOptions.uri = 'https://api.nar1.fenergox.com/screeningquery/api/v3/batch/{batchId}/entity'.replace('{batchId}', batchId);
+
+break;
+case 'GetEntityByIdV2': entityId = base.getNodeParameter('entityId', 0) as string;
+batchId = base.getNodeParameter('batchId', 0) as string;
+requestOptions.method = 'GET';
+requestOptions.uri = 'https://api.nar1.fenergox.com/screeningquery/api/v3/batch/{batchId}/entity/{entityId}'.replace('{entityId}', entityId).replace('{batchId}', batchId);
+
+break;
+case 'GetMatchesByEntityId': entityId = base.getNodeParameter('entityId', 0) as string;
+batchId = base.getNodeParameter('batchId', 0) as string;
+requestOptions.method = 'GET';
+requestOptions.uri = 'https://api.nar1.fenergox.com/screeningquery/api/v3/batch/{batchId}/entity/{entityId}/match'.replace('{entityId}', entityId).replace('{batchId}', batchId);
+requestOptions.qs = { returnMaterialMatches: base.getNodeParameter('returnMaterialMatches', 0) as string };
+break;
+case 'GetMatchById': entityId = base.getNodeParameter('entityId', 0) as string;
+batchId = base.getNodeParameter('batchId', 0) as string;
+matchId = base.getNodeParameter('matchId', 0) as string;
+requestOptions.method = 'GET';
+requestOptions.uri = 'https://api.nar1.fenergox.com/screeningquery/api/v3/batch/{batchId}/entity/{entityId}/match/{matchId}'.replace('{entityId}', entityId).replace('{batchId}', batchId).replace('{matchId}', matchId);
+
+break;
+case 'GetScopedEntitiesByJourneyAndProcessId': journeyId = base.getNodeParameter('journeyId', 0) as string;
+processId = base.getNodeParameter('processId', 0) as string;
+requestOptions.method = 'GET';
+requestOptions.uri = 'https://api.nar1.fenergox.com/screeningquery/api/v3/scoped-entity/journey/{journeyId}/process/{processId}'.replace('{journeyId}', journeyId).replace('{processId}', processId);
+
+break;
+case 'GetAllScopingRuleSetsLite': 
+requestOptions.method = 'GET';
+requestOptions.uri = 'https://api.nar1.fenergox.com/screeningquery/api/v3/scoping-rule-set';
+
+break;
+case 'GetCurrentScopingRuleSetVersionByRuleSetId': scopingRuleSetId = base.getNodeParameter('scopingRuleSetId', 0) as string;
+requestOptions.method = 'GET';
+requestOptions.uri = 'https://api.nar1.fenergox.com/screeningquery/api/v3/scoping-rule-set/{scopingRuleSetId}'.replace('{scopingRuleSetId}', scopingRuleSetId);
+
+break;
+case 'GetScopingRuleSetVersionByRuleSetIdAndVersionNumber': scopingRuleSetId = base.getNodeParameter('scopingRuleSetId', 0) as string;
+versionNumber = base.getNodeParameter('versionNumber', 0) as string;
+requestOptions.method = 'GET';
+requestOptions.uri = 'https://api.nar1.fenergox.com/screeningquery/api/v3/scoping-rule-set/{scopingRuleSetId}/version/{versionNumber}'.replace('{scopingRuleSetId}', scopingRuleSetId).replace('{versionNumber}', versionNumber);
+
+break;
+case 'GetEntity': entityId = base.getNodeParameter('entityId', 0) as string;
+requestOptions.method = 'GET';
+requestOptions.uri = 'https://api.nar1.fenergox.com/screeningquery/api/v3/entity/{entityId}'.replace('{entityId}', entityId);
+
+break;
+}
+
+	let request = base.helpers.request(requestOptions);
+
+    // @ts-ignore
+    const promisesResponses = await Promise.allSettled([request]);
+    let response: any; // tslint:disable-line:no-any
+    response = promisesResponses.shift();
+    if(response!.status !== 'fulfilled') {
+    // throw error;
+    console.log(request);
+    throw new NodeApiError(base.getNode(), response);
+}
+    try {
+        response = JSON.parse(response.value);
+    }
+    catch { response = response.value; }
+
+const returnItems: INodeExecutionData[] = [];
+returnItems.push({ json: response });
+
+return base.prepareOutputData(returnItems);
+}
+
+export {
+    FenergoNebulaScreeningQueryv30Properties,
+    ExecuteFenergoNebulaScreeningQueryv30
+}
