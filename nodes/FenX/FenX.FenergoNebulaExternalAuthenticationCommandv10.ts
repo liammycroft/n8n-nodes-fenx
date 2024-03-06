@@ -13,7 +13,7 @@ let FenergoNebulaExternalAuthenticationCommandv10Properties: INodeProperties[] =
         name: 'endpoint',
         type: 'options',
         options: [
-            { name: '', value: 'CreateConfiguration' }
+            { name: '', value: 'CreateConfiguration' },{ name: '', value: 'UpdateConfiguration' },{ name: '', value: 'DeleteConfiguration' }
         ],
         displayOptions: {
             show: {
@@ -25,7 +25,7 @@ let FenergoNebulaExternalAuthenticationCommandv10Properties: INodeProperties[] =
         default: '',
         required: true,
         description: 'Operation to execute',
-    }, { displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "url": "url", "isMtlsEnabled": false, "endpointCertificate": { "isPublicCA": false, "certificate": "certificate" }, "headers": [ { "name": "name", "value": "value" } ], "oAuthConfiguration": { "clientCredentialsConfig": { "clientId": "clientId", "clientSecret": "clientSecret", "useBasicAuthentication": false, "url": "url", "isMtlsEnabled": false, "endpointCertificate": { "isPublicCA": false, "certificate": "certificate" }, "headers": [ { "name": "name", "value": "value" } ], "useEndpointMtlsConfiguration": false, "formValues": [ { "name": "name", "value": "value" } ] } } } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'CreateConfiguration' ], domain: [ 'FenergoNebulaExternalAuthenticationCommandv10' ] } } }
+    }, { displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "url": "url", "isMtlsEnabled": false, "endpointCertificate": { "isPublicCA": false, "certificate": "certificate" }, "headers": [ { "name": "name", "value": "value" } ], "oAuthConfiguration": { "clientCredentialsConfig": { "clientId": "clientId", "clientSecret": "clientSecret", "useBasicAuthentication": false, "url": "url", "isMtlsEnabled": false, "endpointCertificate": { "isPublicCA": false, "certificate": "certificate" }, "headers": [ { "name": "name", "value": "value" } ], "useEndpointMtlsConfiguration": false, "formValues": [ { "name": "name", "value": "value" } ] } } } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'CreateConfiguration' ], domain: [ 'FenergoNebulaExternalAuthenticationCommandv10' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "url": "url", "isMtlsEnabled": false, "endpointCertificate": { "isPublicCA": false, "certificate": "certificate" }, "headers": [ { "name": "name", "value": "value" } ], "oAuthConfiguration": { "clientCredentialsConfig": { "clientId": "clientId", "clientSecret": "clientSecret", "useBasicAuthentication": false, "url": "url", "isMtlsEnabled": false, "endpointCertificate": { "isPublicCA": false, "certificate": "certificate" }, "headers": [ { "name": "name", "value": "value" } ], "useEndpointMtlsConfiguration": false, "formValues": [ { "name": "name", "value": "value" } ] } } } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'UpdateConfiguration' ], domain: [ 'FenergoNebulaExternalAuthenticationCommandv10' ] } } },{ displayName: 'configurationId', name: 'configurationId', type: 'string', required: true, default: '', description: '', displayOptions: { show: { endpoint: [ 'UpdateConfiguration' ], domain: [ 'FenergoNebulaExternalAuthenticationCommandv10' ] } } },{ displayName: 'configurationId', name: 'configurationId', type: 'string', required: true, default: '', description: '', displayOptions: { show: { endpoint: [ 'DeleteConfiguration' ], domain: [ 'FenergoNebulaExternalAuthenticationCommandv10' ] } } }
 ];
 
 async function ExecuteFenergoNebulaExternalAuthenticationCommandv10(base: IExecuteFunctions): Promise < INodeExecutionData[][] > {
@@ -52,6 +52,16 @@ requestOptions.method = 'POST';
 requestOptions.uri = 'https://api.fenergox.com/externalauthenticationcommand/api/configuration';
 
 requestOptions.body = base.getNodeParameter('request', 0) as string; requestOptions.json = true;break;
+case 'UpdateConfiguration': 
+requestOptions.method = 'PUT';
+requestOptions.uri = 'https://api.fenergox.com/externalauthenticationcommand/api/configuration';
+requestOptions.qs = { configurationId: base.getNodeParameter('configurationId', 0) as string };
+requestOptions.body = base.getNodeParameter('request', 0) as string; requestOptions.json = true;break;
+case 'DeleteConfiguration': 
+requestOptions.method = 'DELETE';
+requestOptions.uri = 'https://api.fenergox.com/externalauthenticationcommand/api/configuration';
+requestOptions.qs = { configurationId: base.getNodeParameter('configurationId', 0) as string };
+break;
 }
 
 	let request = base.helpers.request(requestOptions);
