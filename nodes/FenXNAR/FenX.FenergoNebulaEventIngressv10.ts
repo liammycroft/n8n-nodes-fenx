@@ -13,7 +13,7 @@ let FenergoNebulaEventIngressv10Properties: INodeProperties[] = [
         name: 'endpoint',
         type: 'options',
         options: [
-            { name: 'List all available business process types.', value: 'ListBusinessProcessTypes' },{ name: 'Send an ingress event.', value: 'SendEvent' },{ name: 'Request event types.', value: 'GetEventTypes' },{ name: 'List all available event types, event subtypes, and event subtypes" business process mappings.', value: 'ListEventTypes' },{ name: 'Add a new event type, event subtypes, and map event subtypes to business processes.', value: 'AddEventType' },{ name: 'Update an existing event type, event subtypes, and event subtypes" business process mappings.', value: 'UpdateEventType' },{ name: 'Delete an existing event type, event subtypes, and event subtypes" business process mappings.', value: 'DeleteEventType' }
+            { name: 'List all available business process types.', value: 'ListBusinessProcessTypes' },{ name: 'Send an ingress event.', value: 'SendEvent' },{ name: 'Request event types.', value: 'GetEventTypes' },{ name: 'List all available event types, event subtypes, and event subtypes" business process mappings.', value: 'ListEventTypes' },{ name: 'Delete an existing event type, event subtypes, and event subtypes" business process mappings.', value: 'DeleteEventType' }
         ],
         displayOptions: {
             show: {
@@ -25,7 +25,7 @@ let FenergoNebulaEventIngressv10Properties: INodeProperties[] = [
         default: '',
         required: true,
         description: 'Operation to execute',
-    }, { displayName: 'eventType', name: 'eventType', type: 'string', required: true, default: '', description: 'The key of the event type to be deleted.', displayOptions: { show: { endpoint: [ 'DeleteEventType' ], domain: [ 'FenergoNebulaEventIngressv10' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "eventType": "eventType", "eventSubtype": "eventSubtype", "entityId": "entityId", "source": "source", "payload": null, "correlationId": "correlationId" }', description: 'Request body', displayOptions: { show: { endpoint: [ 'SendEvent' ], domain: [ 'FenergoNebulaEventIngressv10' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "key": "key", "displayName": "displayName", "eventSubtypes": [ { "key": "key", "displayName": "displayName", "businessProcessType": "businessProcessType" } ] }', description: 'Request body', displayOptions: { show: { endpoint: [ 'AddEventType' ], domain: [ 'FenergoNebulaEventIngressv10' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "key": "key", "displayName": "displayName", "eventSubtypes": [ { "key": "key", "displayName": "displayName", "businessProcessType": "businessProcessType" } ] }', description: 'Request body', displayOptions: { show: { endpoint: [ 'UpdateEventType' ], domain: [ 'FenergoNebulaEventIngressv10' ] } } }
+    }, { displayName: 'eventType', name: 'eventType', type: 'string', required: true, default: '', description: 'The key of the event type to be deleted.', displayOptions: { show: { endpoint: [ 'DeleteEventType' ], domain: [ 'FenergoNebulaEventIngressv10' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "eventType": "eventType", "eventSubtype": "eventSubtype", "entityId": "entityId", "source": "source", "payload": null, "correlationId": "correlationId" }', description: 'Request body', displayOptions: { show: { endpoint: [ 'SendEvent' ], domain: [ 'FenergoNebulaEventIngressv10' ] } } }
 ];
 
 async function ExecuteFenergoNebulaEventIngressv10(base: IExecuteFunctions): Promise < INodeExecutionData[][] > {
@@ -67,16 +67,6 @@ requestOptions.method = 'GET';
 requestOptions.uri = 'https://api.nar1.fenergox.com/eventingress/v1/event-types';
 
 break;
-case 'AddEventType': 
-requestOptions.method = 'POST';
-requestOptions.uri = 'https://api.nar1.fenergox.com/eventingress/v1/event-types';
-
-requestOptions.body = base.getNodeParameter('request', 0) as string; requestOptions.json = true;break;
-case 'UpdateEventType': 
-requestOptions.method = 'PUT';
-requestOptions.uri = 'https://api.nar1.fenergox.com/eventingress/v1/event-types';
-
-requestOptions.body = base.getNodeParameter('request', 0) as string; requestOptions.json = true;break;
 case 'DeleteEventType': eventType = base.getNodeParameter('eventType', 0) as string;
 requestOptions.method = 'DELETE';
 requestOptions.uri = 'https://api.nar1.fenergox.com/eventingress/v1/event-types/{eventType}'.replace('{eventType}', eventType);

@@ -13,7 +13,7 @@ let FenergoNebulaReportsCommandv10Properties: INodeProperties[] = [
         name: 'endpoint',
         type: 'options',
         options: [
-            { name: 'Create a new Query definition', value: 'CreateSqlQueryDefinition' },{ name: 'Update a Query definition', value: 'UpdateSqlQueryDefinition' },{ name: 'Delete a Query definition', value: 'DeleteSqlQueryDefinition' },{ name: 'Create report', value: 'CreateReport' },{ name: 'Preview report', value: 'Preview' }
+            { name: 'Create a new Query definition', value: 'CreateSqlQueryDefinition' },{ name: 'Delete a Query definition', value: 'DeleteSqlQueryDefinition' },{ name: 'Create report', value: 'CreateReport' },{ name: 'Preview report', value: 'Preview' }
         ],
         displayOptions: {
             show: {
@@ -25,7 +25,7 @@ let FenergoNebulaReportsCommandv10Properties: INodeProperties[] = [
         default: '',
         required: true,
         description: 'Operation to execute',
-    }, { displayName: 'Id', name: 'Id', type: 'string', required: true, default: '', description: 'The Id of the existing Query definition model to delete', displayOptions: { show: { endpoint: [ 'DeleteSqlQueryDefinition' ], domain: [ 'FenergoNebulaReportsCommandv10' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "sqlQuery": "sqlQuery", "name": "name", "description": "description", "id": "id" } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'CreateSqlQueryDefinition' ], domain: [ 'FenergoNebulaReportsCommandv10' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "id": "id", "sqlQuery": "sqlQuery", "name": "name", "description": "description" } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'UpdateSqlQueryDefinition' ], domain: [ 'FenergoNebulaReportsCommandv10' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "sqlQuery": "sqlQuery", "description": "description" } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'CreateReport' ], domain: [ 'FenergoNebulaReportsCommandv10' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "sqlQuery": "sqlQuery" } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'Preview' ], domain: [ 'FenergoNebulaReportsCommandv10' ] } } }
+    }, { displayName: 'Id', name: 'Id', type: 'string', required: true, default: '', description: 'The Id of the existing Query definition model to delete', displayOptions: { show: { endpoint: [ 'DeleteSqlQueryDefinition' ], domain: [ 'FenergoNebulaReportsCommandv10' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "sqlQuery": "sqlQuery", "name": "name", "description": "description", "id": "id" } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'CreateSqlQueryDefinition' ], domain: [ 'FenergoNebulaReportsCommandv10' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "sqlQuery": "sqlQuery", "description": "description" } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'CreateReport' ], domain: [ 'FenergoNebulaReportsCommandv10' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "sqlQuery": "sqlQuery" } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'Preview' ], domain: [ 'FenergoNebulaReportsCommandv10' ] } } }
 ];
 
 async function ExecuteFenergoNebulaReportsCommandv10(base: IExecuteFunctions): Promise < INodeExecutionData[][] > {
@@ -49,11 +49,6 @@ async function ExecuteFenergoNebulaReportsCommandv10(base: IExecuteFunctions): P
     let Id='';
 switch(endpoint){ case 'CreateSqlQueryDefinition': 
 requestOptions.method = 'POST';
-requestOptions.uri = 'https://api.emea1b.fenergox.com/reportscommand/api/Query';
-
-requestOptions.body = base.getNodeParameter('request', 0) as string; requestOptions.json = true;break;
-case 'UpdateSqlQueryDefinition': 
-requestOptions.method = 'PUT';
 requestOptions.uri = 'https://api.emea1b.fenergox.com/reportscommand/api/Query';
 
 requestOptions.body = base.getNodeParameter('request', 0) as string; requestOptions.json = true;break;

@@ -13,7 +13,7 @@ let FenergoNebulaDataMigrationQueryv10Properties: INodeProperties[] = [
         name: 'endpoint',
         type: 'options',
         options: [
-            { name: 'Gets migration metadata by id', value: 'Get' },{ name: 'Gets an available artifacts list', value: 'GetArtifacts' },{ name: 'Gets the artifact content', value: 'GetArtifactContent' },{ name: 'Gets an error file', value: 'GetErrorFile' },{ name: 'Gets the migrated records file', value: 'GetMigratedRecords' },{ name: 'Generates a signed url for the migration error csv file.', value: 'GetErrorFileSignedUrl' },{ name: 'Gets the record reference ingestion execution information.', value: 'GetRecordReferenceIngestionExecution' },{ name: 'Gets the evaluate jurisdictions execution information.', value: 'GetJurisdictionEvaluationExecution' },{ name: 'Provides access to the error detail file.', value: 'GetRecordReferenceIngestionExecutionErrorDetailFile' },{ name: 'Gets the Access Layer propagation execution information.', value: 'GetAccessLayerPropagationExecution' },{ name: 'Get file with all migrations in it.', value: 'GetMigrationsFile' }
+            { name: 'Gets migration metadata by id', value: 'Get' },{ name: 'Gets an available artifacts list', value: 'GetArtifacts' },{ name: 'Gets the artifact content', value: 'GetArtifactContent' },{ name: 'Gets an error file', value: 'GetErrorFile' },{ name: 'Gets the migrated records file', value: 'GetMigratedRecords' },{ name: 'Generates a signed url for the migration error csv file.', value: 'GetErrorFileSignedUrl' },{ name: 'Gets the record reference ingestion execution information.', value: 'GetRecordReferenceIngestionExecution' },{ name: 'Gets the evaluate jurisdictinos execution information.', value: 'GetJurisdictionEvaluationExecution' },{ name: 'Provides access to the error detail file.', value: 'GetRecordReferenceIngestionExecutionErrorDetailFile' },{ name: 'Gets the Access Layer propagation execution information.', value: 'GetAccessLayerPropagationExecution' }
         ],
         displayOptions: {
             show: {
@@ -95,11 +95,6 @@ break;
 case 'GetAccessLayerPropagationExecution': id = base.getNodeParameter('id', 0) as string;
 requestOptions.method = 'GET';
 requestOptions.uri = 'https://api.apac1.fenergox.com/datamigrationquery/api/access-layer-propagation/{id}/execution'.replace('{id}', id);
-
-break;
-case 'GetMigrationsFile': 
-requestOptions.method = 'GET';
-requestOptions.uri = 'https://api.apac1.fenergox.com/datamigrationquery/api/migrations/file';
 
 break;
 }

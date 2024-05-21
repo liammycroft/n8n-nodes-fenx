@@ -13,7 +13,7 @@ let FenergoNebulaPolicyProvidersCommandv10Properties: INodeProperties[] = [
         name: 'endpoint',
         type: 'options',
         options: [
-            { name: 'Create External Api Provider', value: 'CreatePolicyProvider' },{ name: 'Update Policy External Api Provider', value: 'UpdatePolicyProvider' },{ name: 'Delete Policy Api Provider', value: 'DeleteProvider' }
+            { name: 'Create External Api Provider', value: 'CreatePolicyProvider' },{ name: 'Update Policy External Api Provider', value: 'UpdatePolicyProvider' }
         ],
         displayOptions: {
             show: {
@@ -25,7 +25,7 @@ let FenergoNebulaPolicyProvidersCommandv10Properties: INodeProperties[] = [
         default: '',
         required: true,
         description: 'Operation to execute',
-    }, { displayName: 'providerId', name: 'providerId', type: 'string', required: true, default: '', description: 'PolicyProvider Id', displayOptions: { show: { endpoint: [ 'UpdatePolicyProvider' ], domain: [ 'FenergoNebulaPolicyProvidersCommandv10' ] } } },{ displayName: 'providerId', name: 'providerId', type: 'string', required: true, default: '', description: 'PolicyProvider Id', displayOptions: { show: { endpoint: [ 'DeleteProvider' ], domain: [ 'FenergoNebulaPolicyProvidersCommandv10' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "id": "id", "name": "name", "serviceUrl": "serviceUrl", "encryptionKey": "encryptionKey", "authenticationKey": "authenticationKey", "type": "type", "dataGroupId": "dataGroupId", "searchFieldsConfigs": [ { "label": "label", "name": "name" } ], "resultFieldsConfig": [ { "dataKey": "dataKey" } ], "detailsUrl": "detailsUrl" } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'CreatePolicyProvider' ], domain: [ 'FenergoNebulaPolicyProvidersCommandv10' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "version": -1, "id": "id", "name": "name", "serviceUrl": "serviceUrl", "encryptionKey": "encryptionKey", "authenticationKey": "authenticationKey", "type": "type", "dataGroupId": "dataGroupId", "searchFieldsConfigs": [ { "label": "label", "name": "name" } ], "resultFieldsConfig": [ { "dataKey": "dataKey" } ], "detailsUrl": "detailsUrl" } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'UpdatePolicyProvider' ], domain: [ 'FenergoNebulaPolicyProvidersCommandv10' ] } } }
+    }, { displayName: 'providerId', name: 'providerId', type: 'string', required: true, default: '', description: 'PolicyProvider Id', displayOptions: { show: { endpoint: [ 'UpdatePolicyProvider' ], domain: [ 'FenergoNebulaPolicyProvidersCommandv10' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "id": "id", "name": "name", "serviceUrl": "serviceUrl", "encryptionKey": "encryptionKey", "authenticationKey": "authenticationKey", "type": "type", "dataGroupId": "dataGroupId", "searchFieldsConfigs": [ { "label": "label", "name": "name" } ], "resultFieldsConfig": [ { "dataKey": "dataKey" } ], "detailsUrl": "detailsUrl" } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'CreatePolicyProvider' ], domain: [ 'FenergoNebulaPolicyProvidersCommandv10' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "data": { "version": -1, "id": "id", "name": "name", "serviceUrl": "serviceUrl", "encryptionKey": "encryptionKey", "authenticationKey": "authenticationKey", "type": "type", "dataGroupId": "dataGroupId", "searchFieldsConfigs": [ { "label": "label", "name": "name" } ], "resultFieldsConfig": [ { "dataKey": "dataKey" } ], "detailsUrl": "detailsUrl" } }', description: 'Request body', displayOptions: { show: { endpoint: [ 'UpdatePolicyProvider' ], domain: [ 'FenergoNebulaPolicyProvidersCommandv10' ] } } }
 ];
 
 async function ExecuteFenergoNebulaPolicyProvidersCommandv10(base: IExecuteFunctions): Promise < INodeExecutionData[][] > {
@@ -57,11 +57,6 @@ requestOptions.method = 'PUT';
 requestOptions.uri = 'https://api.fenergox.com/policyproviderscommand/api/provider/{providerId}'.replace('{providerId}', providerId);
 
 requestOptions.body = base.getNodeParameter('request', 0) as string; requestOptions.json = true;break;
-case 'DeleteProvider': providerId = base.getNodeParameter('providerId', 0) as string;
-requestOptions.method = 'DELETE';
-requestOptions.uri = 'https://api.fenergox.com/policyproviderscommand/api/provider/{providerId}'.replace('{providerId}', providerId);
-
-break;
 }
 
 	let request = base.helpers.request(requestOptions);

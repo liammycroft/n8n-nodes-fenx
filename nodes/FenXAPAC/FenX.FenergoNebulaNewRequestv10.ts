@@ -13,7 +13,7 @@ let FenergoNebulaNewRequestv10Properties: INodeProperties[] = [
         name: 'endpoint',
         type: 'options',
         options: [
-            { name: 'Save Configuration', value: 'SaveConfiguration' },{ name: 'Get configuration', value: 'GetConfiguration' }
+            { name: 'Create new search request', value: 'SaveConfiguration' }
         ],
         displayOptions: {
             show: {
@@ -52,11 +52,6 @@ requestOptions.method = 'PUT';
 requestOptions.uri = 'https://api.apac1.fenergox.com/newrequest/api/configuration';
 
 requestOptions.body = base.getNodeParameter('request', 0) as string; requestOptions.json = true;break;
-case 'GetConfiguration': 
-requestOptions.method = 'GET';
-requestOptions.uri = 'https://api.apac1.fenergox.com/newrequest/api/configuration';
-
-break;
 }
 
 	let request = base.helpers.request(requestOptions);

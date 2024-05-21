@@ -13,7 +13,7 @@ let FenergoNebulaScreeningQueryv20Properties: INodeProperties[] = [
         name: 'endpoint',
         type: 'options',
         options: [
-            { name: 'Get data of an existing batch with batch Id', value: 'GetBatchById' },{ name: 'Get data of an existing batch with journey Id', value: 'GetBatchByJourneyId' },{ name: 'Get data of an existing batch with journey Id and process Id', value: 'GetBatchByJourneyAndProcessId' },{ name: 'Get the batches with Legal Entity Id', value: 'GetBatchesByLegalEntityId' },{ name: 'Get data of an existing configuration', value: 'GetConfiguration' },{ name: 'Get a lite version of the data of an existing configuration without requiring screening configuration permissions', value: 'GetConfigurationLite' },{ name: 'Get provider from configuration', value: 'GetProvider' },{ name: 'Get all entities in a batch', value: 'GetEntitiesByBatchIdV2' },{ name: 'Get data of an entity', value: 'GetEntityByIdV2' },{ name: 'Get all matches for an entity', value: 'GetMatchesByEntityId' },{ name: 'Get data of a match', value: 'GetMatchById' },{ name: 'Get all entities in scope for Screening for a given Journey and Process', value: 'GetScopedEntitiesByJourneyAndProcessId' },{ name: 'Get all scoping rule sets', value: 'GetAllScopingRuleSetsLite' },{ name: 'Get the current scoping rule set version by scopingRuleSetId', value: 'GetCurrentScopingRuleSetVersionByRuleSetId' },{ name: 'Get scoping rule set version by scopingRuleSetId and versionNumber', value: 'GetScopingRuleSetVersionByRuleSetIdAndVersionNumber' },{ name: 'Gets an existing Screening entity by ID', value: 'GetEntity' }
+            { name: 'Get data of an existing batch with batch Id', value: 'GetBatchById' },{ name: 'Get data of an existing batch with journey Id', value: 'GetBatchByJourneyId' },{ name: 'Get data of an existing batch with journey Id and process Id', value: 'GetBatchByJourneyAndProcessId' },{ name: 'Get the batches with Legal Entity Id', value: 'GetBatchesByLegalEntityId' },{ name: 'Get data of an existing configuration', value: 'GetConfiguration' },{ name: 'Get a lite version of the data of an existing configuration without requiring screening configuration permissions', value: 'GetConfigurationLite' },{ name: 'Get provider from configuration', value: 'GetProvider' },{ name: 'Get all entities in a batch', value: 'GetEntitiesByBatchIdV2' },{ name: 'Get data of an entity', value: 'GetEntityByIdV2' },{ name: 'Get all matches for an entity', value: 'GetMatchesByEntityId' },{ name: 'Get data of a match', value: 'GetMatchById' },{ name: 'Get all entities in scope for Screening for a given Journey and Process', value: 'GetScopedEntitiesByJourneyAndProcessId' },{ name: 'Get all scoping rule sets', value: 'GetAllScopingRuleSetsLite' },{ name: 'Get the current scoping rule set version by scopingRuleSetId', value: 'GetCurrentScopingRuleSetVersionByRuleSetId' },{ name: 'Get scoping rule set version by scopingRuleSetId and versionNumber', value: 'GetScopingRuleSetVersionByRuleSetIdAndVersionNumber' },{ name: 'Get all entities that have ongoing screening enabled for some provider', value: 'GetAllEntitiesOngoingScreeningEnabled' },{ name: 'Gets an existing Screening entity by ID', value: 'GetEntity' }
         ],
         displayOptions: {
             show: {
@@ -127,6 +127,11 @@ case 'GetScopingRuleSetVersionByRuleSetIdAndVersionNumber': scopingRuleSetId = b
 versionNumber = base.getNodeParameter('versionNumber', 0) as string;
 requestOptions.method = 'GET';
 requestOptions.uri = 'https://api.nar1.fenergox.com/screeningquery/api/v2/scoping-rule-set/{scopingRuleSetId}/version/{versionNumber}'.replace('{scopingRuleSetId}', scopingRuleSetId).replace('{versionNumber}', versionNumber);
+
+break;
+case 'GetAllEntitiesOngoingScreeningEnabled': 
+requestOptions.method = 'GET';
+requestOptions.uri = 'https://api.nar1.fenergox.com/screeningquery/api/v2/ongoingscreening';
 
 break;
 case 'GetEntity': entityId = base.getNodeParameter('entityId', 0) as string;
