@@ -61,7 +61,7 @@ case 'GetAssetsSnapShot': collateralId = base.getNodeParameter('collateralId', 0
 journeyId = base.getNodeParameter('journeyId', 0) as string;
 taskId = base.getNodeParameter('taskId', 0) as string;
 requestOptions.method = 'GET';
-requestOptions.uri = 'https://api.fenergox.com/collateralquery/api/asset/collateral/{collateralId}/journey/{journeyId}/task/{taskId}'.replace('{collateralId}', collateralId).replace('{journeyId}', journeyId).replace('{taskId}', taskId);
+requestOptions.uri = 'https://api.fenergox.com/collateralquery/api/asset/collateral/{collateralId}/journey/{journeyId}/task/{taskId}/snapshot'.replace('{collateralId}', collateralId).replace('{journeyId}', journeyId).replace('{taskId}', taskId);
 
 break;
 case 'GetAssetDraftById': assetDraftId = base.getNodeParameter('assetDraftId', 0) as string;
@@ -103,7 +103,7 @@ requestOptions.body = base.getNodeParameter('request', 0) as string; requestOpti
 case 'GetCollateralsSnapShot': journeyId = base.getNodeParameter('journeyId', 0) as string;
 taskId = base.getNodeParameter('taskId', 0) as string;
 requestOptions.method = 'GET';
-requestOptions.uri = 'https://api.fenergox.com/collateralquery/api/collateral/journey/{journeyId}/task/{taskId}'.replace('{journeyId}', journeyId).replace('{taskId}', taskId);
+requestOptions.uri = 'https://api.fenergox.com/collateralquery/api/collateral/journey/{journeyId}/task/{taskId}/snapshot'.replace('{journeyId}', journeyId).replace('{taskId}', taskId);
 
 break;
 case 'GetCollateralDraftById': collateralDraftId = base.getNodeParameter('collateralDraftId', 0) as string;

@@ -41,7 +41,7 @@ Node uses client credentials provided by Fenergo.
 
 ## Compatibility
 
-Tested against n8n version 1.29.1.
+Tested against n8n version 1.42.1.
 
 ## Resources
 

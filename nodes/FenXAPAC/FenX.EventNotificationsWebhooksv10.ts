@@ -13,7 +13,7 @@ let EventNotificationsWebhooksv10Properties: INodeProperties[] = [
         name: 'endpoint',
         type: 'options',
         options: [
-            { name: 'List all webhook configurations.', value: 'ListWebhooks' },{ name: 'Delete webhook configuration.', value: 'DeleteWebhook' },{ name: 'List all available event notification types.', value: 'ListEventNotificationTypes' }
+            { name: 'List all webhook configurations.', value: 'ListWebhooks' },{ name: 'Add a webhook configuration.', value: 'AddWebhook' },{ name: 'Delete webhook configuration.', value: 'DeleteWebhook' },{ name: 'Update a webhook configuration.', value: 'UpdateWebhook' },{ name: 'Get webhook configuration.', value: 'GetWebhook' },{ name: 'List all available event notification types.', value: 'ListEventNotificationTypes' },{ name: 'Test webhook availability.', value: 'TestWebhook' }
         ],
         displayOptions: {
             show: {
@@ -25,7 +25,7 @@ let EventNotificationsWebhooksv10Properties: INodeProperties[] = [
         default: '',
         required: true,
         description: 'Operation to execute',
-    }, { displayName: 'webhookId', name: 'webhookId', type: 'string', required: true, default: '', description: 'The webhook identifier.', displayOptions: { show: { endpoint: [ 'DeleteWebhook' ], domain: [ 'EventNotificationsWebhooksv10' ] } } }
+    }, { displayName: 'webhookId', name: 'webhookId', type: 'string', required: true, default: '', description: 'The webhook identifier.', displayOptions: { show: { endpoint: [ 'DeleteWebhook' ], domain: [ 'EventNotificationsWebhooksv10' ] } } },{ displayName: 'webhookId', name: 'webhookId', type: 'string', required: true, default: '', description: 'The webhook identifier.', displayOptions: { show: { endpoint: [ 'UpdateWebhook' ], domain: [ 'EventNotificationsWebhooksv10' ] } } },{ displayName: 'webhookId', name: 'webhookId', type: 'string', required: true, default: '', description: '', displayOptions: { show: { endpoint: [ 'GetWebhook' ], domain: [ 'EventNotificationsWebhooksv10' ] } } },{ displayName: 'webhookId', name: 'webhookId', type: 'string', required: true, default: '', description: 'The webhook identifier.', displayOptions: { show: { endpoint: [ 'TestWebhook' ], domain: [ 'EventNotificationsWebhooksv10' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "name": "name", "url": "url", "secret": "secret", "enabled": false, "eventTypes": [ "" ], "emailAddresses": [ "" ] }', description: 'Request body', displayOptions: { show: { endpoint: [ 'AddWebhook' ], domain: [ 'EventNotificationsWebhooksv10' ] } } },{ displayName: 'Request', name: 'request', type: 'json', required: true, default: '{ "name": "name", "url": "url", "secret": "secret", "enabled": false, "eventTypes": [ "" ], "emailAddresses": [ "" ] }', description: 'Request body', displayOptions: { show: { endpoint: [ 'UpdateWebhook' ], domain: [ 'EventNotificationsWebhooksv10' ] } } }
 ];
 
 async function ExecuteEventNotificationsWebhooksv10(base: IExecuteFunctions): Promise < INodeExecutionData[][] > {
@@ -52,14 +52,34 @@ requestOptions.method = 'GET';
 requestOptions.uri = 'https://api.apac1.fenergox.com/webhooks/v1/webhooks';
 
 break;
+case 'AddWebhook': 
+requestOptions.method = 'POST';
+requestOptions.uri = 'https://api.apac1.fenergox.com/webhooks/v1/webhooks';
+
+requestOptions.body = base.getNodeParameter('request', 0) as string; requestOptions.json = true;break;
 case 'DeleteWebhook': webhookId = base.getNodeParameter('webhookId', 0) as string;
 requestOptions.method = 'DELETE';
+requestOptions.uri = 'https://api.apac1.fenergox.com/webhooks/v1/webhooks/{webhookId}'.replace('{webhookId}', webhookId);
+
+break;
+case 'UpdateWebhook': webhookId = base.getNodeParameter('webhookId', 0) as string;
+requestOptions.method = 'PUT';
+requestOptions.uri = 'https://api.apac1.fenergox.com/webhooks/v1/webhooks/{webhookId}'.replace('{webhookId}', webhookId);
+
+requestOptions.body = base.getNodeParameter('request', 0) as string; requestOptions.json = true;break;
+case 'GetWebhook': webhookId = base.getNodeParameter('webhookId', 0) as string;
+requestOptions.method = 'GET';
 requestOptions.uri = 'https://api.apac1.fenergox.com/webhooks/v1/webhooks/{webhookId}'.replace('{webhookId}', webhookId);
 
 break;
 case 'ListEventNotificationTypes': 
 requestOptions.method = 'GET';
 requestOptions.uri = 'https://api.apac1.fenergox.com/webhooks/v1/webhooks/event-notification-types';
+
+break;
+case 'TestWebhook': webhookId = base.getNodeParameter('webhookId', 0) as string;
+requestOptions.method = 'GET';
+requestOptions.uri = 'https://api.apac1.fenergox.com/webhooks/v1/webhooks/{webhookId}/test'.replace('{webhookId}', webhookId);
 
 break;
 }
