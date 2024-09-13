@@ -27,16 +27,10 @@
     ],
     "n8n": {
         "credentials": [
-            "dist/credentials/FenX.credentials.js",
-            "dist/credentials/FenXAPAC.credentials.js",
-			"dist/credentials/FenXEMEA1B.credentials.js",
-            "dist/credentials/FenXNAR.credentials.js"
+            "dist/credentials/FenX.credentials.js"
         ],
         "nodes": [
-            "dist/nodes/FenX/FenX.node.js",
-            "dist/nodes/FenXAPAC/FenXAPAC.node.js",
-			"dist/nodes/FenXEMEA1B/FenXEMEA1B.node.js",
-            "dist/nodes/FenXNAR/FenXNAR.node.js"
+            "dist/nodes/FenX/FenX.node.js"
         ]
     },
     "devDependencies": {
